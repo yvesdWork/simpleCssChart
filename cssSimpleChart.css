@@ -30,6 +30,9 @@ Limitations :
 	border-right: 0 none transparent;
 	border-bottom: 0 none transparent;
 	z-index: -100;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;	/* Firefox, other Gecko */
+	box-sizing: border-box;		 /* Opera/IE 8+ */
 }
 
 .vtree li:last-child > div::before {
