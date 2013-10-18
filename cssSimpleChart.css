@@ -34,7 +34,7 @@ Limitations :
 	 */
 	white-space: normal;
 }
-.chart li > div::before {
+.chart li > div::after {
 	/* All the magic is here : draw connections between boxes */
 	content:'';
 	position: absolute;
@@ -46,12 +46,11 @@ Limitations :
 	border-bottom: 0 none transparent;
 	border-left-style: solid;
 	border-top-style: solid;
-	z-index: -1;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
-.chart li:last-child > div::before {
+.chart li:last-child > div::after {
 	border-top: 0 none transparent;
 }
 .chart li.firstLevel > div {
@@ -65,13 +64,16 @@ Limitations :
 	 * horizontally centered */
 	margin-left: auto;
 	margin-right: auto;
+	/* hide connection lines */
+	z-index: 100;
+	/* To position stuff absolutely inside AND allow Z-index */
+	position: relative;
 }
 .chart .grandpa > div {
 	position: relative;
 	display: inline-block;
-	z-index: 0;
 }
-.chart .grandpa  > div::before {
+.chart .grandpa  > div::after {
 	border-top-style: none;
 	border-right-style: none;
 	border-left-style: solid;
@@ -84,9 +86,8 @@ Limitations :
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	z-index: -1;
 }
-.chart .grandpa  > div:last-child::before {
+.chart .grandpa  > div:last-child::after {
 	border-bottom-style: none;
 }
 .chart .grandpa {
@@ -110,16 +111,11 @@ Limitations :
 	/* TODO: this rule doesn't nest very well */
 	margin-top: 0;
 }
-.chart li > div::before,
-.chart .grandpa  > div::before {
+.chart li > div::after,
+.chart .grandpa  > div::after {
 	/* Colors & width for connections */
 	border-color: #4A7EBB;
 	border-width: 2px;
-}
-.chart .grandpa {
-	/* Wrapper around the grandpa */
-    /* TODO : remove the cheat with the white background :) */
-	background: white;
 }
 .chart .box {
 	margin-top: 1em;
@@ -129,4 +125,10 @@ Limitations :
 	padding: 0.5em;
 	text-align: left;
 	background: white;
+}
+.chart .firstLevel .grandpa::after {
+ 	display: none;
+}
+.chart li.firstLevel > div:first-child {
+	padding-top: 0;
 }
