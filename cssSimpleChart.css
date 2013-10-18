@@ -1,8 +1,9 @@
 /* Simple CSS Org chart */
 /*
 Limitations :
- * doesn't allow multiple levels (not tested)
-
+ * Doesn't allow multiple levels (not tested)
+ * Nesting is badly handled. Many ">" selectors that will break if we add a level of nesting
+ * (Linked to previous) : remove the wrapping ugly div in li if possible
 */
 
 
@@ -13,15 +14,22 @@ Limitations :
 	margin: 0;
 	list-style-type: none;
 	position: relative;
-    /* So that chart isn't broken when line is too narrow
-     * (but you must handle the overflow to the right
-     * somehow else) */
-    white-space: nowrap;
+	/* So that chart isn't broken when line is too narrow
+	 * (but you must handle the overflow to the right
+	 * somehow else) */
+	white-space: nowrap;
 }
 .chart li {
 	list-style-type: none;
 	display: inline-block;
 	position: relative;
+	vertical-align: top;
+}
+.chart li > div {
+	/* This wrapper div serves to position the connections
+	 * among others). TODO : delete this wrapping div if possible ?
+	 */
+	white-space: normal;
 }
 .chart li > div::before {
 	/* All the magic is here : draw connections between boxes */
@@ -40,14 +48,11 @@ Limitations :
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
-
 .chart li:last-child > div::before {
 	border-top: 0 none transparent;
 }
-
-.chart li.firstLevel > div::before {
-	top: auto;
-	height: 50%;
+.chart li.firstLevel > div {
+	position: relative;
 }
 .chart ul > li:last-child {
 	border-left: 0 solid transparent;
@@ -58,12 +63,12 @@ Limitations :
 	margin-left: auto;
 	margin-right: auto;
 }
-.grandpa > div {
+.chart .grandpa > div {
 	position: relative;
 	display: inline-block;
 	z-index: 0;
 }
-.grandpa  > div::before {
+.chart .grandpa  > div::before {
 	border-top-style: none;
 	border-right-style: none;
 	border-left-style: solid;
@@ -78,10 +83,10 @@ Limitations :
 	box-sizing: border-box;
 	z-index: -1;
 }
-.grandpa  > div:last-child::before {
+.chart .grandpa  > div:last-child::before {
 	border-bottom-style: none;
 }
-.grandpa {
+.chart .grandpa {
 	text-align: center;
 }
 
@@ -92,19 +97,26 @@ Limitations :
 	 * will not be br0ken */
 	padding-left: 0.5em;
 	padding-right: 0.5em;
-	margin-top: 1em;
 }
-
+.chart li.firstLevel > div {
+	/* Space before and after Item 1-1 */
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+.chart li.firstLevel > div > .box {
+	/* TODO: this rule doesn't nest very well */
+	margin-top: 0;
+}
 .chart li > div::before,
-.grandpa  > div::before {
+.chart .grandpa  > div::before {
 	/* Colors & width for connections */
 	border-color: #4A7EBB;
 	border-width: 2px;
 }
-.grandpa {
+.chart .grandpa {
 	/* Wrapper around the grandpa */
+    /* TODO : remove the cheat with the white background :) */
 	background: white;
-	padding-bottom: 1em;
 }
 .chart .box {
 	margin-top: 1em;
