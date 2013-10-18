@@ -1,10 +1,13 @@
 /* Simple CSS Org chart */
+/* By Yves Dessertine. https://github.com/yvesdWork/simpleCssChart */
+/* This software is licensed under LGPL License */
 /*
 Limitations :
  * Doesn't allow multiple levels (not tested)
  * Nesting is badly handled. Many ">" selectors that will break if we add a level of nesting
- * (Linked to previous) : remove the wrapping ugly div in li if possible
-*/
+   (Linked to previous) : remove the wrapping ugly div in li if possible
+ * When Items 0* are not show, a line is displayed alone. FIXME
+ */
 
 
 /* Part I : stucture */
@@ -43,7 +46,7 @@ Limitations :
 	border-bottom: 0 none transparent;
 	border-left-style: solid;
 	border-top-style: solid;
-	z-index: -100;
+	z-index: -1;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
