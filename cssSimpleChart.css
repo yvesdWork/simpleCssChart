@@ -2,85 +2,116 @@
 /*
 Limitations :
  * doesn't allow multiple levels (not tested)
- * 
- 
+
 */
-.vtree ul {
+
+
+/* Part I : stucture */
+
+.chart ul {
 	padding: 0;
 	margin: 0;
 	list-style-type: none;
 	position: relative;
+    /* So that chart isn't broken when line is too narrow
+     * (but you must handle the overflow to the right
+     * somehow else) */
+    white-space: nowrap;
 }
-.vtree li {
+.chart li {
 	list-style-type: none;
 	display: inline-block;
 	position: relative;
-	padding-left: 0.5em;
-	padding-right: 0.5em;
-	margin-top: 1em;
 }
-.vtree li > div::before {
+.chart li > div::before {
+	/* All the magic is here : draw connections between boxes */
 	content:'';
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	left: 50%;
 	top: 0;
-	border: 2px solid #4A7EBB;
 	border-right: 0 none transparent;
 	border-bottom: 0 none transparent;
+	border-left-style: solid;
+	border-top-style: solid;
 	z-index: -100;
-	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-	-moz-box-sizing: border-box;	/* Firefox, other Gecko */
-	box-sizing: border-box;		 /* Opera/IE 8+ */
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-.vtree li:last-child > div::before {
+.chart li:last-child > div::before {
 	border-top: 0 none transparent;
 }
 
-.vtree li.firstLevel > div::before {
+.chart li.firstLevel > div::before {
 	top: auto;
 	height: 50%;
 }
-.vtree ul > li:last-child {
+.chart ul > li:last-child {
 	border-left: 0 solid transparent;
 }
-.vtree .box {
-	margin: 1em auto auto auto;
+.chart .box {
+	/* Must be set to Auto so that block level elements are
+	 * horizontally centered */
+	margin-left: auto;
+	margin-right: auto;
+}
+.grandpa > div {
+	position: relative;
+	display: inline-block;
+	z-index: 0;
+}
+.grandpa  > div::before {
+	border-top-style: none;
+	border-right-style: none;
+	border-left-style: solid;
+	border-bottom-style: solid;
+	position: absolute;
+	top: 1em;
+	width: 100%;
+	height: 100%;
+	content: "";
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	z-index: -1;
+}
+.grandpa  > div:last-child::before {
+	border-bottom-style: none;
+}
+.grandpa {
+	text-align: center;
+}
+
+/* Part II : customization */
+
+.chart li {
+	/* Space left and right must be equally divided so chart
+	 * will not be br0ken */
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	margin-top: 1em;
+}
+
+.chart li > div::before,
+.grandpa  > div::before {
+	/* Colors & width for connections */
+	border-color: #4A7EBB;
+	border-width: 2px;
+}
+.grandpa {
+	/* Wrapper around the grandpa */
+	background: white;
+	padding-bottom: 1em;
+}
+.chart .box {
+	margin-top: 1em;
 	width: 12em;
 	border: #8EB4E3 medium solid;
 	border-radius: 1em;
 	padding: 0.5em;
 	text-align: left;
 	background: white;
-}
-.grandpa .box {
-}
-.grandpa > div {
-    position: relative;
-    display: inline-block;
-    z-index: 0;
-}
-.grandpa  > div::before {
-	border: 2px solid #4A7EBB;
-    border-top: 0 none transparent;
-    border-right: 0 none transparent;
-    position: absolute;
-    top: 1em;
-    width: 100%;
-    height: 100%;
-    content: "";
-	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-	-moz-box-sizing: border-box;	/* Firefox, other Gecko */
-	box-sizing: border-box;		 /* Opera/IE 8+ */
-    z-index: -1;
-}
-.grandpa  > div:last-child::before {
-    border-bottom: 0 none transparent;
-}
-.grandpa {
-    text-align: center;
-    background: white;
-    padding-bottom: 1em;
 }
