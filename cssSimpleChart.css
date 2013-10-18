@@ -102,6 +102,10 @@ Limitations :
 	padding-left: 0.5em;
 	padding-right: 0.5em;
 }
+.chart .grandpa .box {
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
 .chart li.firstLevel > div {
 	/* Space before and after Item 1-1 */
 	padding-top: 1em;
